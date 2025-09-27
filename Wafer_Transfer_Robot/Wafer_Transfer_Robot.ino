@@ -9,7 +9,7 @@
 
 PRIZM prz;
 inline void buzz() { prz.setSoundNote(3000,75); prz.setSoundOff(); }
-
+void LineStop(int dir, int16_t n, double _at);
 void setup() {
   
   prz.PrizmBegin();
@@ -83,6 +83,35 @@ void loop() {
 }
 
 
+void LineStop(int dir, int16_t n, double _at)
+{
+  int16_t max_p =90;
+  if(dir < 0) dir = -1;
+  if(dir >= 0) dir = 1;
+  int16_t cnt = 0;
+  for(int i = 0; i<=max_p;i++)  
+  {
+    prz.setMotorPowers(i*dir,-i*dir);
+    delay(i<=20?4:2);
+  }
+  while(1){
+    if(prz.getLineSensor(1)){
+      buzz();
+      cnt++;
+      if(cnt==n) break;
+      delay(800);
+    }
+  }
+  delay(_at);
+  for(int i = max_p; i>=0;i--)  
+  {
+    prz.setMotorPowers(i*dir,-i*dir);
+    delay(i<=20?4:2);
+  }
+  prz.setMotorPowers(125,125);
+}
+
+
 void EStart(double y, int16_t v) // Encode 제어
 {
   prz.resetEncoders();
@@ -135,34 +164,6 @@ void EStart2(double y, int16_t v, int16_t a, int16_t _a) // Encode 제어
   prz.setMotorSpeeds(0,0);
 }
 
-void LineStop(int dir, int16_t n, double _at)
-{
-  int16_t max_p =90;
-  if(dir < 0) dir = -1;
-  if(dir >= 0) dir = 1;
-  int16_t cnt = 0;
-  uint32_t stop_t =(uint32_t)(_at*1000);
-  for(int i = 0; i<=max_p;i++)  
-  {
-    prz.setMotorPowers(i*dir,-i*dir);
-    delay(i<=20?4:2);
-  }
-  while(1){
-    if(prz.getLineSensor(1)){
-      buzz();
-      cnt++;
-      if(cnt==n) break;
-      delay(800);
-    }
-  }
-  delay(stop_t);
-  for(int i = max_p; i>=0;i--)  
-  {
-    prz.setMotorPowers(i*dir,-i*dir);
-    delay(i<=20?4:2);
-  }
-  prz.setMotorPowers(125,125);
-}
 
 // void LineStop(int16_t v,int16_t _a)
 // {
