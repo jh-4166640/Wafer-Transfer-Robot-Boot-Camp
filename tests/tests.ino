@@ -50,6 +50,9 @@ void setup()
   Serial.println("Start up");
   
   while(!Axis4_SetPostionMode()); // 위치 원점으로 초기화 
+  buzz();
+  delay(100);
+  buzz();
 }
 
 /* 왼쪽 웨이퍼 꺼내기 위한 세팅 동작
@@ -143,18 +146,41 @@ void Parking_work()
   Serial.println(Aservo_actualPosition[1]);
   delay(2000);
 }
+
+/*지금까지 짠 프로세스*/
+/*
+LEFT_work();
+Parking_work();
+*/
+// 이걸 LEFT_work와 Parking_work 사이에 Right Work 추가 해야 함 25.11.18
 void loop() 
 { 
+  
+  
+  /* 출발점에서 Right work 시작하는 기준 위치
+  lstop(1,3,1240);
+  delay(400);
+  */
+  //lstop(1,1,1240);
+  //delay(400);
+
   LInit_odd();
   RInit_even();
+  Rget_even(1);
 
-  //LEFT_work();
-  //Parking_work();
+  delay(10000);
+  while(!Axis4_Move(0,20, 0,2000, 0,130, 0, 20)); 
+  while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)4, Aservo_actualPosition[0], Aservo_actualVelocity[0])); 
+  while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)3, Aservo_actualPosition[1], Aservo_actualVelocity[1])); 
+  Serial.println(Aservo_actualPosition[0]);
+  Serial.println(Aservo_actualPosition[1]);
+  delay(DELAY_T);
   while(1);
 }
 void RInit_even()
 {
-  int32_t nm1 = 130000 , nm3 = cur_m3, nm4 = 25000;
+  //int32_t nm1 = 20000,  nm3 = 124000, nm4= 11500;  
+  int32_t nm1 = 130000 , nm3 = 124000, nm4 = 25000;
   int32_t nm2 = cur_m2;
   while(!Axis4_Move(nm1,80, nm2,0, cur_m3,0, cur_m4, 0)); 
   while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)4, Aservo_actualPosition[0], Aservo_actualVelocity[0])); 
@@ -172,6 +198,7 @@ void RInit_even()
 
   cur_m1 = nm1;
   cur_m4 = nm4;
+  cur_m3 = nm3;
 }
 
 void Rget_even(uint8_t floor)
@@ -182,29 +209,29 @@ void Rget_even(uint8_t floor)
   else if(floor == 2) start_m2 = 4418000;
   else if(floor == 3) start_m2 = 7320000;
   else start_m2 = 0;
-  int32_t nm1 = start_m1, nm2 = start_m2, nm3 = start_m3, nm4= start_m4;
+  int32_t nm1 = start_m1, nm2 = start_m2, nm3 = cur_m3, nm4= start_m4;
 
 
   // 밀어넣기 
-  nm1 = nm1 - 2000;   // 61000
-  nm2 = nm2;          //  
-  nm3 = nm3 + 15000;  // 15000
-  nm4 = nm4 - 3000;   // 34500
+  nm1 = nm1 + 11000;   
+  nm2 = nm2;         
+  nm3 = nm3 - 4200;  
+  nm4 = nm4 - 2070;   
 
-  while(!Axis4_Move(nm1,9, nm2,0, nm3, 65, nm4,15)); 
+  while(!Axis4_Move(nm1,30, nm2,2000, nm3, 20, nm4,5)); 
   while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)4, Aservo_actualPosition[0], Aservo_actualVelocity[0])); 
   while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)3, Aservo_actualPosition[1], Aservo_actualVelocity[1])); 
   Serial.println(Aservo_actualPosition[0]);
   Serial.println(Aservo_actualPosition[1]);
-  delay(DELAY_T);
+  delay(5000);
 
-  // 더 밀어넣기
-  nm1 = nm1 - 2000;   // 59000
-  nm2 = nm2;          //  
-  nm3 = nm3 + 11000;  // 26000
-  nm4 = nm4 - 2100;   // 32600
+  // 더 밀어넣기 
+  nm1 = nm1 + 17000;   
+  nm2 = nm2;         
+  nm3 = nm3 - 18000;  
+  nm4 = nm4 ;   
 
-  while(!Axis4_Move(nm1,15, nm2,0, nm3,60, nm4,10));
+  while(!Axis4_Move(nm1,20, nm2,0, nm3, 25, nm4,10)); 
   while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)4, Aservo_actualPosition[0], Aservo_actualVelocity[0])); 
   while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)3, Aservo_actualPosition[1], Aservo_actualVelocity[1])); 
   Serial.println(Aservo_actualPosition[0]);
@@ -212,41 +239,39 @@ void Rget_even(uint8_t floor)
   delay(DELAY_T);
 
   // 들기
-  nm1 = nm1;   // 59000
-  nm2 = nm2 - 1117900; //  
-  nm3 = nm3;  // 26000
-  nm4 = nm4;   // 32600
+  nm1 = nm1; //65200
+  nm2 = nm2 - 1117900; //
+  nm3 = nm3; // 98500
+  nm4 = nm4; // 17000
 
-  while(!Axis4_Move(nm1,0, nm2 ,1000, nm3,0, nm4,0));
-  while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)4, Aservo_actualPosition[0], Aservo_actualVelocity[0])); 
-  while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)3, Aservo_actualPosition[1], Aservo_actualVelocity[1])); 
-  Serial.println(Aservo_actualPosition[0]);
-  Serial.println(Aservo_actualPosition[1]);
-  delay(3000);
-
-  // 뺴기
-
-  nm1 = nm1 + 2500;   // 61500
-  nm2 = nm2;          //  
-  nm3 = nm3 - 11000;  // 15000
-  nm4 = nm4 + 1900;   // 34500
-
-  while(!Axis4_Move(nm1,11, nm2,0, nm3,50, nm4,11));
+  while(!Axis4_Move(nm1,0, nm2 ,2000, nm3,0, nm4,0));
   while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)4, Aservo_actualPosition[0], Aservo_actualVelocity[0])); 
   while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)3, Aservo_actualPosition[1], Aservo_actualVelocity[1])); 
   Serial.println(Aservo_actualPosition[0]);
   Serial.println(Aservo_actualPosition[1]);
   delay(DELAY_T);
 
-  // 완전뺴기
 
-  nm1 = nm1 + 1500;   // 63000
-  nm2 = nm2;          //  
-  nm3 = nm3 - 15000;  // 0
-  nm4 = nm4 + 3000;   // 37500
+  // 빼기
+  nm1 = nm1 - 17000;   
+  nm2 = nm2;         
+  nm3 = nm3 + 18000;  
+  nm4 = nm4;   
 
+  while(!Axis4_Move(nm1,20, nm2,0, nm3, 25, nm4,10)); 
+  while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)4, Aservo_actualPosition[0], Aservo_actualVelocity[0])); 
+  while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)3, Aservo_actualPosition[1], Aservo_actualVelocity[1])); 
+  Serial.println(Aservo_actualPosition[0]);
+  Serial.println(Aservo_actualPosition[1]);
+  delay(DELAY_T);
 
-  while(!Axis4_Move(nm1,20, nm2,0, nm3,50, nm4,8)); // end
+  // 더 빼기 
+  nm1 = nm1 - 11000;   
+  nm2 = nm2;         
+  nm3 = nm3 + 4200;  
+  nm4 = nm4 + 2070;   
+
+  while(!Axis4_Move(nm1,30, nm2,2000, nm3, 20, nm4,5)); 
   while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)4, Aservo_actualPosition[0], Aservo_actualVelocity[0])); 
   while(!aservo_can.GetActaulPositionAndVelocity((AServoAxis)3, Aservo_actualPosition[1], Aservo_actualVelocity[1])); 
   Serial.println(Aservo_actualPosition[0]);
@@ -291,6 +316,11 @@ void LInit_odd()
   Serial.println(Aservo_actualPosition[0]);
   Serial.println(Aservo_actualPosition[1]);
   delay(DELAY_T);
+
+  cur_m1 = nm1;
+  cur_m2 = 0;
+  cur_m3 = nm3;
+  cur_m4 = nm4;
 }
 void L2Lput_odd()
 {
