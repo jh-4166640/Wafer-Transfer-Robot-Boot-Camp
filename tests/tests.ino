@@ -6,8 +6,9 @@
 #include <soundEffects.h>
 #include "AServoCAN.h"
 PRIZM prizm; // instantiate a PRIZM Pro object “prizm” so we can
-#define DELAY_T 1300
+#define DELAY_T 300
 #define STOP    while(1)
+#define DELAY_LINE 400
 
 HardwareSerial mySerial(1);
 AServoCAN aservo_can;
@@ -64,38 +65,44 @@ void setup()
 
 void loop() 
 { 
-  LEFT_work();
-  Right_work();
+  armop(0,0,-6000000,1000,0,0,0,0);
+  delay(5000);
+  // armop(0,0,0,0,124000,120,0,0);
+  // delay(5000);
+  // armop(0,0,0,0,0,120,0,0);
+  // delay(5000);
 
-  armop(0,20, 0,2000, 0,130, 0, 20);
+  // LEFT_work();
+  // Right_work();
 
   STOP;
 }
 
 void LEFT_work() // 왼쪽 초록색 트레이들을 빨간색으로 옮긴거
 {
-  double setLinePosFWRD = 1200;
+  double setLinePosFWRD = 1120;
   double setLinePosBCK = 300;
+  
   // 왼쪽 트레이들 이동하기
   lstop(1,1,500);
-  delay(1000);
+  delay(DELAY_LINE);
   lstop(-1,1,setLinePosBCK);
   LInit_odd(); // 첫번쨰만
   Lget_odd(5);
   lstop(1,1,setLinePosFWRD);
-  delay(1000);
+  delay(DELAY_LINE);
   L2Lput_odd();
 
   lstop(-1,1,setLinePosBCK);
   Lget_odd(3);
   lstop(1,1,setLinePosFWRD);
-  delay(1000);
+  delay(DELAY_LINE);
   L2Lput_odd();
   
   lstop(-1,1,setLinePosBCK);
   Lget_odd(1);
   lstop(1,1,setLinePosFWRD);
-  delay(1000);
+  delay(DELAY_LINE);
   L2Lput_odd();
   //////////
   lstop(1,2,500);
@@ -103,19 +110,19 @@ void LEFT_work() // 왼쪽 초록색 트레이들을 빨간색으로 옮긴거
   lstop(-1,1,setLinePosBCK);
   Lget_odd(2);
   lstop(1,1,setLinePosFWRD);
-  delay(1000);
+  delay(DELAY_LINE);
   L2Lput_odd();
   
   lstop(-1,1,setLinePosBCK);
   Lget_odd(4);
   lstop(1,1,setLinePosFWRD);
-  delay(1000);
+  delay(DELAY_LINE);
   L2Lput_odd();
   
   lstop(-1,1,setLinePosBCK);
   Lget_odd(6);
   lstop(1,1,setLinePosFWRD);
-  delay(1000);
+  delay(DELAY_LINE);
   L2Lput_odd();
 }
 void Right_work()
@@ -283,7 +290,7 @@ void LInit_odd()
 
   armop(nm1,0, 0,0, nm3,250, 0,0);
 
-  nm1 = 64500;
+  nm1 = 63000;
   armop(nm1,100, 0,0, nm3,0, 0,0);
 
   armop(nm1,0, 0,0, nm3,0, nm4,50);
@@ -298,11 +305,11 @@ void L2Lput_odd()
   int32_t nm1 = cur_m1, nm2 = cur_m2;
   int32_t nm3 = cur_m3, nm4 = cur_m4;
 
-  nm1 = nm1-800; //62100
+  nm1 = nm1-200; //62100
   nm2 = nm2; //
   nm3 = nm3-12000; // 112000
   nm4 = nm4+1400; // 14400
-  armop(nm1,60, nm2,0, 112000,80, nm4,20);
+  armop(nm1,20, nm2,0, 112000,80, nm4,20);
 
   // 완전 넣기
   nm1 = nm1+3150; //65200
@@ -328,7 +335,7 @@ void L2Lput_odd()
   armop(nm1,25, nm2,0, nm3,75, nm4,15);
 
   // 완전 빼기
-  nm1 = 64500; //63000
+  nm1 = 63000; //63000
   nm2 = nm2; //
   nm3 = 124000; // 124000
   nm4 = 13000; // 11500
@@ -342,7 +349,7 @@ void L2Lput_odd()
 }
 void Lget_odd(uint8_t floor)
 {
-  int32_t start_m1 = 64500, start_m4 = 13000;
+  int32_t start_m1 = 63000, start_m4 = 13000;
   int32_t start_m2 = 0, start_m3 = 124000;
   
   if(floor == 6) start_m2 = 1268000;  
@@ -370,7 +377,7 @@ void Lget_odd(uint8_t floor)
   armop(nm1,0, nm2,0, 112000,80, nm4,20);
 
   // 완전 넣기
-  nm1 = nm1+3550; //66900
+  nm1 = nm1+2050; //66900
   nm2 = nm2; //
   nm3 = nm3-16500; // 95500
   nm4 = nm4+2800; // 17600
@@ -384,14 +391,14 @@ void Lget_odd(uint8_t floor)
   armop(nm1,0, nm2 ,2000, nm3,0, nm4,0);
 
   // 빼기
-  nm1 = nm1-3150; //63750
+  nm1 = nm1-2050; //63750
   nm2 = nm2; //
   nm3 = nm3+16500; // 112000
   nm4 = nm4-2800; // 14400
   armop(nm1,25, nm2,0, nm3,75, nm4,15);
 
   // 완전 빼기
-  nm1 = nm1+400; //64150
+  nm1 = nm1; //64150
   nm2 = nm2; //
   nm3 = nm3+12000; // 124000
   nm4 = nm4-3600; // 11500
@@ -412,7 +419,7 @@ void lstop(int dir, int16_t n, double _at) //dir 앞뒤, n읽을 라인 개수, 
   for(int i = 10; i<=max_p;i++)  
   {
     prizm.setMotorPowers(i*dir,-i*dir);
-    delay(5);
+    delay(3);
   }
   while(1){
     if(prizm.getLineSensor(3)){
