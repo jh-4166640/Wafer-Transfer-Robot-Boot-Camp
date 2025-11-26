@@ -65,15 +65,15 @@ void setup()
 
 void loop() 
 { 
-  armop(0,0,-6000000,1000,0,0,0,0);
-  delay(5000);
-  // armop(0,0,0,0,124000,120,0,0);
+  // armop(0,0,-6000000,1000,0,0,0,0);
   // delay(5000);
-  // armop(0,0,0,0,0,120,0,0);
-  // delay(5000);
+  // // armop(0,0,0,0,124000,120,0,0);
+  // // delay(5000);
+  // // armop(0,0,0,0,0,120,0,0);
+  // // delay(5000);
 
-  // LEFT_work();
-  // Right_work();
+  LEFT_work();
+  Right_work();
 
   STOP;
 }
@@ -174,7 +174,7 @@ void Right_work()
 void RInit_even()
 {
   //int32_t nm1 = 20000,  nm3 = 124000, nm4= 11500;  
-  int32_t nm1 = 185000 , nm3 = 124000, nm4 = 23500;
+  int32_t nm1 = 145000 , nm3 = 124000, nm4 = 23500;
   int32_t nm2 = cur_m2;
   armop(nm1,100, nm2,0, cur_m3,0, cur_m4, 0);
   armop(nm1,0, nm2,0, nm3,150, nm4, 50);
@@ -202,7 +202,7 @@ void Rput_even()
   
   // 놓기
   nm1 = nm1; //65200
-  nm2 = nm2 + 1360000; //
+  nm2 = nm2 + 1500000; //
   nm3 = nm3; // 98500
   nm4 = nm4; // 17000
   armop(nm1,0, nm2 ,2000, nm3,0, nm4,0);
@@ -230,15 +230,15 @@ void Rput_even()
 
 void Rget_even(uint8_t floor) // 고정우
 {
-  int32_t start_m1 = 185000, start_m4 = 25000;
+  int32_t start_m1 = 145000, start_m4 = 25000;
   int32_t start_m2 = 0, start_m3 = 124000;
 
-  if(floor == 6) start_m2 = 1268000;  
-  else if(floor == 5) start_m2 = 1268000 + 1350000;
-  else if(floor == 4) start_m2 = 4418000;
-  else if(floor == 3) start_m2 = 4418000 + 1350000;
-  else if(floor == 2) start_m2 = 7320000;
-  else if(floor == 1) start_m2 = 7320000 + 990000;
+  if(floor == 6) start_m2 = 1288000;  
+  else if(floor == 5) start_m2 = 1288000 + 1350000;
+  else if(floor == 4) start_m2 = 4438000;
+  else if(floor == 3) start_m2 = 4438000 + 1350000;
+  else if(floor == 2) start_m2 = 7350000;
+  else if(floor == 1) start_m2 = 7320000 + 1010000;
   int32_t nm1 = start_m1, nm2 = start_m2, nm3 = cur_m3, nm4= start_m4;
   //int32_t nm1 = 130000 , nm3 = 124000, nm4 = 25000;
   // 밀어넣기 
@@ -258,7 +258,7 @@ void Rget_even(uint8_t floor) // 고정우
 
   // 들기
   nm1 = nm1; //65200
-  nm2 = nm2 - 1350000; //
+  nm2 = nm2 - 1500000; //
   nm3 = nm3; // 98500
   nm4 = nm4; // 17000
   armop(nm1,0, nm2 ,2000, nm3,0, nm4,0);
@@ -290,7 +290,7 @@ void LInit_odd()
 
   armop(nm1,0, 0,0, nm3,250, 0,0);
 
-  nm1 = 63000;
+  nm1 = 62000;
   armop(nm1,100, 0,0, nm3,0, 0,0);
 
   armop(nm1,0, 0,0, nm3,0, nm4,50);
@@ -321,7 +321,7 @@ void L2Lput_odd()
 
   // 놓기
   nm1 = nm1; //65200
-  nm2 = nm2 + 1360000; //
+  nm2 = nm2 + 1500000; //
   nm3 = nm3; // 98500
   nm4 = nm4; // 17000
   armop(nm1,0, nm2 ,2000, nm3,0, nm4,0);
@@ -335,7 +335,7 @@ void L2Lput_odd()
   armop(nm1,25, nm2,0, nm3,75, nm4,15);
 
   // 완전 빼기
-  nm1 = 63000; //63000
+  nm1 = 62000; //63000
   nm2 = nm2; //
   nm3 = 124000; // 124000
   nm4 = 13000; // 11500
@@ -349,15 +349,15 @@ void L2Lput_odd()
 }
 void Lget_odd(uint8_t floor)
 {
-  int32_t start_m1 = 63000, start_m4 = 13000;
+  int32_t start_m1 = 62000, start_m4 = 13000;
   int32_t start_m2 = 0, start_m3 = 124000;
   
-  if(floor == 6) start_m2 = 1268000;  
-  else if(floor == 5) start_m2 = 1268000 + 1350000;
-  else if(floor == 4) start_m2 = 4418000;
-  else if(floor == 3) start_m2 = 4418000 + 1350000;
-  else if(floor == 2) start_m2 = 7320000;
-  else if(floor == 1) start_m2 = 7320000 + 990000;
+  if(floor == 6) start_m2 = 1288000;  
+  else if(floor == 5) start_m2 = 1288000 + 1350000;
+  else if(floor == 4) start_m2 = 4438000;
+  else if(floor == 3) start_m2 = 4438000 + 1350000;
+  else if(floor == 2) start_m2 = 7350000;
+  else if(floor == 1) start_m2 = 7320000 + 1010000;
   int32_t nm1 = start_m1, nm2 = start_m2, nm3 = start_m3, nm4= start_m4;
   //int32_t nm1 = 63350,  nm3 = 124000, nm4= 11500;
 
@@ -385,7 +385,7 @@ void Lget_odd(uint8_t floor)
 
   // 들기
   nm1 = nm1; //66900
-  nm2 = nm2 - 1350000; //
+  nm2 = nm2 - 1500000; //
   nm3 = nm3; // 95500
   nm4 = nm4; // 17600
   armop(nm1,0, nm2 ,2000, nm3,0, nm4,0);
