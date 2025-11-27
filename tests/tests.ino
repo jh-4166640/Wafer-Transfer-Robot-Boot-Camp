@@ -63,25 +63,21 @@ void setup()
   buzz();
 }
 
+
 void loop() 
 { 
-  // armop(0,0,-6000000,1000,0,0,0,0);
-  // delay(5000);
-  // // armop(0,0,0,0,124000,120,0,0);
-  // // delay(5000);
-  // // armop(0,0,0,0,0,120,0,0);
-  // // delay(5000);
-
   LEFT_work();
   Right_work();
-
+  armop(0,0,0,2400,0,250,0,100);
+  lstop(-1,2,700);
+  armop(0,300,0,1000,0,300,0,200);
   STOP;
 }
 
 void LEFT_work() // 왼쪽 초록색 트레이들을 빨간색으로 옮긴거
 {
-  double setLinePosFWRD = 1120;
-  double setLinePosBCK = 300;
+  double setLinePosFWRD = 1200;
+  double setLinePosBCK = 360;
   
   // 왼쪽 트레이들 이동하기
   lstop(1,1,500);
@@ -150,31 +146,31 @@ void Right_work()
   delay(400);
   Rput_even();
 
-  lstop(-1,1,200);  
-  Rget_even(1);
-  lstop(-1,1,setLinePosBCK);
-  delay(400);
-  Rput_even();
+  // lstop(-1,1,200);  
+  // Rget_even(1);
+  // lstop(-1,1,setLinePosBCK);
+  // delay(400);
+  // Rput_even();
 
-  lstop(1,1,setLinePosFWRD);
-  delay(400);
-  Rget_even(3);
-  lstop(-1,1,setLinePosBCK);
-  delay(400);
-  Rput_even();
+  // lstop(1,1,setLinePosFWRD);
+  // delay(400);
+  // Rget_even(3);
+  // lstop(-1,1,setLinePosBCK);
+  // delay(400);
+  // Rput_even();
 
-  lstop(1,1,setLinePosFWRD);
-  delay(400);
-  Rget_even(5);
-  lstop(-1,1,setLinePosBCK);
-  delay(400);
-  Rput_even();
+  // lstop(1,1,setLinePosFWRD);
+  // delay(400);
+  // Rget_even(5);
+  // lstop(-1,1,setLinePosBCK);
+  // delay(400);
+  // Rput_even();
 }
 
 void RInit_even()
 {
   //int32_t nm1 = 20000,  nm3 = 124000, nm4= 11500;  
-  int32_t nm1 = 145000 , nm3 = 124000, nm4 = 23500;
+  int32_t nm1 = 130000 , nm3 = 124000, nm4 = 23500;
   int32_t nm2 = cur_m2;
   armop(nm1,100, nm2,0, cur_m3,0, cur_m4, 0);
   armop(nm1,0, nm2,0, nm3,150, nm4, 50);
@@ -189,9 +185,9 @@ void Rput_even()
   // 밀어넣기 
   nm1 = nm1 + 11000;   
   nm2 = nm2;         
-  nm3 = nm3 - 12000;  
-  nm4 = nm4;   
-  armop(nm1,30, nm2,0, nm3, 20, nm4,5);
+  nm3 = nm3 - 13000;  
+  nm4 = nm4 + 2500;   
+  armop(nm1,15, nm2,0, nm3, 25, nm4,40);
 
   // 더 밀어넣기 
   nm1 = nm1 + 14000;   
@@ -205,23 +201,23 @@ void Rput_even()
   nm2 = nm2 + 1500000; //
   nm3 = nm3; // 98500
   nm4 = nm4; // 17000
-  armop(nm1,0, nm2 ,2000, nm3,0, nm4,0);
+  armop(nm1,0, nm2 ,2400, nm3,0, nm4,0);
   delay(1000);
 
   // 빼기
   nm1 = nm1 - 14000;   
   nm2 = nm2;         
   nm3 = nm3 + 21000;  
-  nm4 = nm4 ;   
+  nm4 = nm4 -1000;   
   armop(nm1,20, nm2,0, nm3, 30, nm4,0);
-
+  
   // 더 빼기 
-  nm1 = 185000;   
+  nm1 = 130000;   
   nm2 = nm2;         
   nm3 = 124000;  
-  nm4 = 25000;   
+  nm4 = 23500;   
   armop(nm1,30, nm2,0, nm3, 20, nm4,35);
-  //int32_t nm1 = 130000 , nm3 = 124000, nm4 = 25000;
+//   int32_t nm1 = 130000 , nm3 = 124000, nm4 = 23500;
   cur_m1 = nm1;
   cur_m2 = nm2;
   cur_m3 = nm3;
@@ -230,51 +226,51 @@ void Rput_even()
 
 void Rget_even(uint8_t floor) // 고정우
 {
-  int32_t start_m1 = 145000, start_m4 = 25000;
+  int32_t start_m1 = 130000, start_m4 = 23500;
   int32_t start_m2 = 0, start_m3 = 124000;
-
-  if(floor == 6) start_m2 = 1288000;  
-  else if(floor == 5) start_m2 = 1288000 + 1350000;
-  else if(floor == 4) start_m2 = 4438000;
-  else if(floor == 3) start_m2 = 4438000 + 1350000;
-  else if(floor == 2) start_m2 = 7350000;
-  else if(floor == 1) start_m2 = 7320000 + 1010000;
+//  int32_t nm1 = 140000 , nm3 = 124000, nm4 = 20500;
+  if(floor == 6) start_m2 = 1388000;  
+  else if(floor == 5) start_m2 = 1388000 + 1350000;
+  else if(floor == 4) start_m2 = 4538000;
+  else if(floor == 3) start_m2 = 4538000 + 1350000;
+  else if(floor == 2) start_m2 = 7450000;
+  else if(floor == 1) start_m2 = 7320000 + 1400000;
   int32_t nm1 = start_m1, nm2 = start_m2, nm3 = cur_m3, nm4= start_m4;
   //int32_t nm1 = 130000 , nm3 = 124000, nm4 = 25000;
   // 밀어넣기 
-  nm1 = nm1 + 10500;  // 130000 + 10000
+  nm1 = nm1 + 14500;  // 130000 + 10000
   nm2 = nm2;         
   nm3 = nm3 - 3850;  
-  nm4 = nm4 - 2300;   
-  armop(nm1,30, nm2,2000, nm3, 20, nm4,5);
-  delay(5000-DELAY_T);
+  nm4 = nm4 - 1300;   
+  armop(nm1,40, nm2,2400, nm3, 30, nm4,50);
+  delay(1000-DELAY_T);
 
   // 더 밀어넣기 
-  nm1 = nm1 + 16000;    // 17000 -> 16000
+  nm1 = nm1 + 12000;    // 17000 -> 16000
   nm2 = nm2;         
-  nm3 = nm3 - 26500; 
-  nm4 = nm4 + 1600;   
-  armop(nm1,20, nm2,0, nm3, 33, nm4, 8);
+  nm3 = nm3 - 25900; 
+  nm4 = nm4 + 500;   
+  armop(nm1,20, nm2,0, nm3, 45, nm4, 10);
 
   // 들기
   nm1 = nm1; //65200
   nm2 = nm2 - 1500000; //
   nm3 = nm3; // 98500
   nm4 = nm4; // 17000
-  armop(nm1,0, nm2 ,2000, nm3,0, nm4,0);
+  armop(nm1,0, nm2 ,2400, nm3,0, nm4,0);
 
   // 빼기
-  nm1 = nm1 - 15000;   //16000 -> 17000
+  nm1 = nm1 - 12000;   //16000 -> 17000
   nm2 = nm2;         
-  nm3 = nm3 + 26500;  
-  nm4 = nm4 - 1600;   
-  armop(nm1,20, nm2,0, nm3, 33, nm4,5);
+  nm3 = nm3 + 25900;  
+  nm4 = nm4 -500;   
+  armop(nm1,20, nm2,0, nm3, 25, nm4,10);
 
   // 더 빼기 
-  nm1 = nm1 - 10500;   
+  nm1 = nm1 - 14500;   
   nm2 = nm2;         
-  nm3 = nm3 + 4200;  
-  nm4 = nm4 + 2070;   
+  nm3 = nm3 + 3850;  
+  nm4 = nm4 + 1300;   
   armop(nm1,30, nm2,0, nm3, 20, nm4,35);
 
   cur_m1 = nm1; //128000
@@ -285,12 +281,12 @@ void Rget_even(uint8_t floor) // 고정우
 
 void LInit_odd()
 {
-  int32_t nm1 = 20000,  nm3 = 124000, nm4= 13000;
+  int32_t nm1 = 20000,  nm3 = 124000, nm4= 12000;
   armop(nm1,80, 0,0, 0,0, 0, 0);
 
   armop(nm1,0, 0,0, nm3,250, 0,0);
 
-  nm1 = 62000;
+  nm1 = 63000;
   armop(nm1,100, 0,0, nm3,0, 0,0);
 
   armop(nm1,0, 0,0, nm3,0, nm4,50);
@@ -308,11 +304,11 @@ void L2Lput_odd()
   nm1 = nm1-200; //62100
   nm2 = nm2; //
   nm3 = nm3-12000; // 112000
-  nm4 = nm4+1400; // 14400
+  nm4 = nm4+1700; // 14400
   armop(nm1,20, nm2,0, 112000,80, nm4,20);
 
   // 완전 넣기
-  nm1 = nm1+3150; //65200
+  nm1 = nm1+4150; //65200
   nm2 = nm2; //
   nm3 = nm3-13500; // 98500
   nm4 = nm4+2600; // 17000
@@ -321,24 +317,25 @@ void L2Lput_odd()
 
   // 놓기
   nm1 = nm1; //65200
-  nm2 = nm2 + 1500000; //
+  nm2 = nm2 + 1400000; //
   nm3 = nm3; // 98500
   nm4 = nm4; // 17000
   armop(nm1,0, nm2 ,2000, nm3,0, nm4,0);
   delay(3000-DELAY_T);
 
   // 빼기
-  nm1 = nm1-3150; //62100
+  nm1 = nm1-4150; //62100
   nm2 = nm2; //
   nm3 = nm3+13500; // 112000
   nm4 = nm4-2600; // 14400
   armop(nm1,25, nm2,0, nm3,75, nm4,15);
 
   // 완전 빼기
-  nm1 = 62000; //63000
+  nm1 = 63000; //63000
   nm2 = nm2; //
   nm3 = 124000; // 124000
-  nm4 = 13000; // 11500
+  nm4 = 12000; // 11500
+
   armop(nm1,10, nm2,0, nm3,80, nm4,18);
   //int32_t nm1 = 63350,  nm3 = 124000, nm4= 11500;
   cur_m1 = nm1;
@@ -349,15 +346,15 @@ void L2Lput_odd()
 }
 void Lget_odd(uint8_t floor)
 {
-  int32_t start_m1 = 62000, start_m4 = 13000;
+  int32_t start_m1 = 63000, start_m4 = 12000;
   int32_t start_m2 = 0, start_m3 = 124000;
   
-  if(floor == 6) start_m2 = 1288000;  
-  else if(floor == 5) start_m2 = 1288000 + 1350000;
+  if(floor == 6) start_m2 = 1388000;  
+  else if(floor == 5) start_m2 = 1388000 + 1400000;
   else if(floor == 4) start_m2 = 4438000;
-  else if(floor == 3) start_m2 = 4438000 + 1350000;
+  else if(floor == 3) start_m2 = 4438000 + 1400000;
   else if(floor == 2) start_m2 = 7350000;
-  else if(floor == 1) start_m2 = 7320000 + 1010000;
+  else if(floor == 1) start_m2 = 7500000 + 1400000;
   int32_t nm1 = start_m1, nm2 = start_m2, nm3 = start_m3, nm4= start_m4;
   //int32_t nm1 = 63350,  nm3 = 124000, nm4= 11500;
 
@@ -366,42 +363,42 @@ void Lget_odd(uint8_t floor)
   nm3 = nm3; // 124000
   nm4 = nm4; // 11500
 
-  armop(nm1,0, nm2,2000, nm3,0, nm4,0);
+  armop(nm1,0, nm2,2400, nm3,0, nm4,0);
   delay(5000-DELAY_T);
 
   // 넣기 
   nm1 = nm1; //63350 //넣을 때 살짝 오른쪽으로 움직이는거 지움
   nm2 = nm2; //
   nm3 = nm3-12000; // 112000
-  nm4 = nm4+3600; // 14400
+  nm4 = nm4+2300; // 14400
   armop(nm1,0, nm2,0, 112000,80, nm4,20);
 
   // 완전 넣기
-  nm1 = nm1+2050; //66900
+  nm1 = nm1+3950; //66900
   nm2 = nm2; //
   nm3 = nm3-16500; // 95500
-  nm4 = nm4+2800; // 17600
+  nm4 = nm4+2600; // 17600
   armop(nm1,20, nm2,0, nm3,75, nm4,15);
 
   // 들기
   nm1 = nm1; //66900
-  nm2 = nm2 - 1500000; //
+  nm2 = nm2 - 1400000; //
   nm3 = nm3; // 95500
   nm4 = nm4; // 17600
   armop(nm1,0, nm2 ,2000, nm3,0, nm4,0);
 
   // 빼기
-  nm1 = nm1-2050; //63750
+  nm1 = nm1-3950; //63750
   nm2 = nm2; //
   nm3 = nm3+16500; // 112000
-  nm4 = nm4-2800; // 14400
+  nm4 = nm4-2600; // 14400
   armop(nm1,25, nm2,0, nm3,75, nm4,15);
 
   // 완전 빼기
   nm1 = nm1; //64150
   nm2 = nm2; //
   nm3 = nm3+12000; // 124000
-  nm4 = nm4-3600; // 11500
+  nm4 = nm4-2300; // 11500
   armop(nm1,10, nm2,0, nm3,80, nm4,18);
   //int32_t nm1 = 64000,  nm3 = 124000, nm4= 13000;
   cur_m1 = nm1;
@@ -419,7 +416,7 @@ void lstop(int dir, int16_t n, double _at) //dir 앞뒤, n읽을 라인 개수, 
   for(int i = 10; i<=max_p;i++)  
   {
     prizm.setMotorPowers(i*dir,-i*dir);
-    delay(3);
+    delay(5);
   }
   while(1){
     if(prizm.getLineSensor(3)){
